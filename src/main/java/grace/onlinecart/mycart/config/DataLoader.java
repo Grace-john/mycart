@@ -12,7 +12,9 @@ public class DataLoader implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception{
-                    //  repository.save(new Customer((long)1,"Administrator","admin@gmail.com","123456","admin"));
+        if (!repository.existsByUserName("admin@mail.com")) {
+            repository.save(new Customer(null, "Administrator", "admin@mail.com", "123456", "admin"));
+        }
     }
     
     @Autowired

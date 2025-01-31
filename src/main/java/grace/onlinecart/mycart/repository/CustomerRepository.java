@@ -10,5 +10,6 @@ public interface CustomerRepository  extends CrudRepository<Customer,Long>{
     @Query("select c from Customer c where c.userName=?1 and c.password=?2 ")
     List<Customer>  login(String userName,String password);
     
+    boolean existsByUserName(String userName);
 
 }

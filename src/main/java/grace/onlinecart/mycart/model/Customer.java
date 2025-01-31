@@ -10,7 +10,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
 
     private String userName;
@@ -20,7 +20,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(long id, String name, String userName, String password, String userType) {
+    public Customer(Long id, String name, String userName, String password, String userType) {
         this.id = id;
         this.name = name;
         this.userName = userName;
