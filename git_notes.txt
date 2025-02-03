@@ -33,3 +33,6 @@ git remote
 git remote -v
 
 git push mycart_github master
+
+git stash-rollbacks to commit stage
+

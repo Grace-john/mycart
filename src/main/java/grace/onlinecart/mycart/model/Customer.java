@@ -16,6 +16,9 @@ public class Customer {
     private String userName;
     private String password;
     private String userType;
+    // @Version
+    // private Integer version;
+
 
     public Customer() {
     }
@@ -67,5 +70,6 @@ public class Customer {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+    
 
 }
