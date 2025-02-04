@@ -1,20 +1,17 @@
 package grace.onlinecart.mycart.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import grace.onlinecart.mycart.service.CustomerService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.ui.Model;
 import grace.onlinecart.mycart.model.Customer;
-
+import grace.onlinecart.mycart.service.CustomerService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
 
 
 
@@ -45,15 +42,54 @@ public class AdminController {
         return "/admin/create";
     }
 
-    @GetMapping("/delete")
-    public String delete() {
+    @GetMapping("/delete/{id}")
+    public String delete(Model model,@PathVariable Long id) {
+        Customer c=service.read(id);
+        model.addAttribute("cust",c);
+        model.addAttribute("msg", "");
+        
         return "/admin/delete";
     }
 
-    @GetMapping("/edit")
-    public String edit() {
-        return "/admin/edit";
+    @GetMapping("/edit/{id}")
+    public String edit(Model model,@PathVariable Long id) {
+      
+        Customer c=service.read(id);
+        model.addAttribute("cust",c);
+        model.addAttribute("msg", "");
+        
+      
+
+       return "/admin/edit";
     }
+
+    @PostMapping("/edit/{id}")
+    public String editSave(@ModelAttribute Customer customer, Model model, @PathVariable Long id) {
+        customer.setId(id);
+        Customer cus = service.update(id, customer);
+        if (cus == null) {
+            model.addAttribute("msg", "Invalid id ?");
+        } else {
+            model.addAttribute("msg", cus.getName() + " Updated !");
+        }
+        model.addAttribute("cust", customer);
+        return "admin/edit";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteMe(Model model,@PathVariable Long id) {
+
+        
+        Customer cus = service.delete(id);
+        if (cus == null) {
+            model.addAttribute("msg", "Invalid id ?");
+        } else {
+            return "redirect:/admin";
+        }
+       
+        return "admin/delete";
+    }
+
 
     @Autowired
     private CustomerService service;
